@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Coda:wght@400;800&display=swap');
+
+/*Estilização Tag Universal*/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+}
+
+/*Estilização Tags*/
+
+html {
+    background-image: url('../img/fundo.png');
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+body {
+    position: relative;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+}
+
+/*Estilização Classes*/
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+
+.logo-area {
+    display: flex;
+    justify-content: center;
+}
+
+.card-form {
+    background: linear-gradient(to bottom, rgba(242, 160, 41), rgba(242, 160, 61));
+    width: 25%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    gap: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.title,
+.btn,
+.faca-conta {
+    display: flex;
+    justify-content: center;
+}
+
+.user,
+.senha {
+    display: flex;
+    justify-content: left;
+    background-color: white;
+    border-radius: 10px;
+    margin: 0 10%;
+    padding: 2%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.esqueci {
+    display: flex;
+    justify-content: right;
+    margin: 0 10%;
+    font-size: small;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-item {
+    border: none;
+    padding: 4%;
+    width: 100%;
+    border-radius: 10px;
+    outline-style: none;
+    background: transparent;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+
+/*Estilização IDs*/
+
+#logo {
+    width: 10rem;
+}
+
+#txt-title {
+    font-family: 'Coda', cursive;
+    font-weight: 600;
+}
+
+#btn-login {
+    border: none;
+    background-color: #181515;
+    color: white;
+    width: 90%;
+    padding: 4%;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: medium;
+    font-family: 'Coda', cursive;
+    font-weight: 600;
+    margin-top: 5%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+#btn-login:hover {
+    background-color: black;
+}
+
+#esqueci-senha,
+#faca-uma {
+    color: black;
+    font-weight: bold;
+}
+
+#icon-perfil,
+#icon-senha {
+    width: 15%;
+    opacity: 0.8;
+}
+
+#nao-tem-conta{
+    text-align: center;
+}
+
+/*Medias*/
+@media screen and (max-width: 800px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-form {
+        width: 80%;
+    }
+
+    /* Outras modificações de estilo para telas menores */
+}

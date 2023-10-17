@@ -1,0 +1,60 @@
+/*Estilização Global*/
+
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/*Estilização Tags*/
+
+html {
+  background-image: url('../img/fundo.png');
+  height: 100%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+h1 {
+  margin-top: 3%;
+  font-family: 'Anton', sans-serif;
+}
+
+/*Estilização Classes*/
+
+.logo {
+  display: flex;
+  justify-content: center;
+}
+
+.card-choice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 3%;
+}
+
+.item-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2%;
+  cursor: pointer;
+}
+
+.item-choice:hover {
+  background-color: #fab92a;
+  margin-top: -5px;
+}
+
+.img-choice {
+  width: 60%;
+}
+
+/*Estilização IDs*/
