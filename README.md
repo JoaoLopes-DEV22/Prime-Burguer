@@ -31,4 +31,4 @@ Essas credenciais dão acesso ao painel administrativo, permitindo explorar as f
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/JoaoLopes-DEV22/prime-burguer.git
+git clone https://github.com/JoaoLopes-DEV22/prime-burguers.git
