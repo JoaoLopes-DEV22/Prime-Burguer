@@ -22,7 +22,7 @@ Essas credenciais dão acesso ao painel administrativo, permitindo explorar as f
 
 ## 🔧 Melhorias
 
-- Ajusstar telas para que as fique dinamicamente, de acordo com a categoria do produto.
+- Ajustar telas para que as fique dinamicamente, de acordo com a categoria do produto.
 
 ## 🛠 Tecnologias Utilizadas
 
