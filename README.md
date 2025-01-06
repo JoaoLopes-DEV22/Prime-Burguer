@@ -20,6 +20,10 @@ Você pode testar o sistema utilizando as seguintes credenciais de login:
 
 Essas credenciais dão acesso ao painel administrativo, permitindo explorar as funcionalidades do sistema.
 
+## 🔧 Melhorias
+
+- Ajusstar telas para que as fique dinamicamente, de acordo com a categoria do produto.
+
 ## 🛠 Tecnologias Utilizadas
 
 - **PHP**: Linguagem principal utilizada para desenvolvimento back-end.
