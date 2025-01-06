@@ -31,4 +31,4 @@ Com essas credenciais, você tem acesso total como administrador e pode explorar
 ### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/JoaoLopes-DEV22/prime-burguer's.git
+git clone https://github.com/JoaoLopes-DEV22/prime-burguer-s.git
