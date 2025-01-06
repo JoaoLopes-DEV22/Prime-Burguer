@@ -39,7 +39,7 @@ var pedido = {
 // Função para calcular o valor total do pedido
 function calcularTotalPedido() {
   var total = 0;
-  produtosEscolhidos.forEach(function(produto) {
+  produtosEscolhidos.forEach(function (produto) {
     total += produto.preco * produto.quantidade;
   });
   return total;
@@ -47,7 +47,7 @@ function calcularTotalPedido() {
 
 function aumentarQuantidade(produto) {
   // Encontre o produto no carrinho
-  var produtoExistente = produtosEscolhidos.findIndex(function(item) {
+  var produtoExistente = produtosEscolhidos.findIndex(function (item) {
     return item.nome === produto.nome;
   });
 
@@ -78,7 +78,7 @@ function aumentarQuantidade(produto) {
 
 function diminuirQuantidade(produto) {
   // Encontre o índice do produto no carrinho
-  var produtoIndex = produtosEscolhidos.findIndex(function(item) {
+  var produtoIndex = produtosEscolhidos.findIndex(function (item) {
     return item.nome === produto.nome;
   });
 
@@ -175,14 +175,13 @@ function abrirModal(produto) {
   console.log("Modal aberto com produto: ", produto.nome);
 }
 
-function abrirDrop() {
+function toggleDrop() {
   var dropdown = document.querySelector(".menu");
-  dropdown.style.display = "block";
-}
-
-function fecharDrop() {
-  var dropdown = document.querySelector(".menu");
-  dropdown.style.display = "none";
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+  } else {
+    dropdown.style.display = "block";
+  }
 }
 
 function toggleMenu() {
@@ -210,8 +209,8 @@ function toggleMenu() {
 var btnAddProduto = document.querySelectorAll(".btn-add");
 
 // Adiciona um ouvinte de clique a cada botão
-btnAddProduto.forEach(function(btn) {
-  btn.addEventListener("click", function() {
+btnAddProduto.forEach(function (btn) {
+  btn.addEventListener("click", function () {
     // Obtém informações do produto a partir dos atributos de dados
     var produto = {
       nome: this.getAttribute("data-nome"),
@@ -237,7 +236,7 @@ function adicionarAoCarrinho(produto, index) {
   };
 
   // Verifique se o produto já foi escolhido antes
-  var produtoExistente = produtosEscolhidos.find(function(item) {
+  var produtoExistente = produtosEscolhidos.find(function (item) {
     return item.nome === produtoEscolhido.nome;
   });
 
@@ -294,12 +293,12 @@ function adicionarAoCarrinho(produto, index) {
   produtoPreco.appendChild(add);
 
   // Adicione ouvintes de evento aos botões de "+" e "-"
-  somar.addEventListener("click", function() {
+  somar.addEventListener("click", function () {
     aumentarQuantidade(produtoEscolhido, index);
     atualizarModal();
   });
 
-  subtrair.addEventListener("click", function() {
+  subtrair.addEventListener("click", function () {
     diminuirQuantidade(produtoEscolhido, index);
     atualizarModal();
   });
@@ -323,7 +322,7 @@ function abrirModalCarrinho() {
   modalBody.innerHTML = ""; // Limpa o conteúdo anterior
 
   // Itere pela lista de produtos escolhidos e exiba-os no modal
-  produtosEscolhidos.forEach(function(produto) {
+  produtosEscolhidos.forEach(function (produto) {
     var itemCarrinho = document.createElement("div");
     itemCarrinho.classList.add("item-carrinho"); // Adicione a classe de estilização
 
@@ -359,11 +358,11 @@ function abrirModalCarrinho() {
     produtoPreco.appendChild(add);
 
     // Adicione ouvintes de evento aos botões de + e -
-    somar.addEventListener("click", function() {
+    somar.addEventListener("click", function () {
       aumentarQuantidade(produto);
     });
 
-    subtrair.addEventListener("click", function() {
+    subtrair.addEventListener("click", function () {
       diminuirQuantidade(produto);
     });
 
@@ -398,7 +397,7 @@ function abrirModalCarrinho() {
   });
 
   var btnCancelar = document.querySelector(".btn-cancelar");
-  btnCancelar.addEventListener("click", function() {
+  btnCancelar.addEventListener("click", function () {
     limparCarrinho();
     fecharModal();
   });
@@ -441,35 +440,41 @@ function limparCarrinho() {
 // ---------------- PEGAR PARA INSERIR NO BANCO ---------------- //
 
 function EnviarPedidoServidor() {
-  produtosEscolhidos.forEach(function(produto) {
+  produtosEscolhidos.forEach(function (produto) {
+    // Calcula o valor total para cada produto
+    var totalPedido = calcularTotalPedido();
+    // var totalPedido = parseFloat(document.querySelector("#p-total").innerText.replace("R$", "").trim());
+
     // Objeto que contém os dados do pedido
     var pedidoData = {
       mesa_pedido: document.getElementById("num").value,
       nome_pedido: produto.nome,
+      valor_pedido: produto.preco,
       quantidade_pedido: produto.quantidade,
-      observacao_pedido: document.querySelector("textarea").value
+      observacao_pedido: document.querySelector("textarea").value,
+      total_pedido: totalPedido.toFixed(2)
     };
 
     // Faça a chamada AJAX para inserir o pedido no banco de dados
-    fetch("../php/inserir_pedido.php", {
+    fetch("../php-action/inserir_pedido.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=UTF-8"
       },
       body: JSON.stringify(pedidoData)
     })
-      .then(function(response) {
+      .then(function (response) {
         if (response.ok) {
           return response.text();
         } else {
           throw new Error("Erro na inserção do pedido no banco de dados.");
         }
       })
-      .then(function(data) {
+      .then(function (data) {
         // Verifique a resposta do servidor (pode mostrar uma mensagem de sucesso ou lidar com erros)
         console.log(data);
       })
-      .catch(function(error) {
+      .catch(function (error) {
         // Lide com erros aqui, se necessário
         console.error(error);
       });

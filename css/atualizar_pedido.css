@@ -7,7 +7,7 @@
 
 /*Estilização Tags*/
 
-body{
+body {
     background-color: #cacaca;
 }
 
@@ -30,7 +30,7 @@ form {
     flex-direction: column;
     width: 50%;
     margin: auto;
-    
+
     padding: 2%;
     line-height: 45px;
     border-radius: 10px;
@@ -51,6 +51,16 @@ form {
     outline-style: none;
     font-size: 18px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    resize: none;
+}
+
+.input-item-textarea {
+    border-bottom: 1px solid black;
+    padding: 1%;
+    outline-style: none;
+    font-size: 18px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-radius: 10px;
 }
 
 .label-item {
@@ -70,7 +80,6 @@ form {
 #logo {
     width: 150px;
     height: 150px;
-    cursor: pointer;
 }
 
 #btn-atualizar {
@@ -90,4 +99,19 @@ form {
 
 #btn-atualizar:hover {
     background-color: #2dac3a;
+}
+
+#btn-voltar {
+    margin: auto;
+    margin-top: 2%;
+    width: 40%;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 2%;
+    color: white;
+    background-color: #404040;
+    font-weight: bold;
+    font-size: 15px;
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
 }

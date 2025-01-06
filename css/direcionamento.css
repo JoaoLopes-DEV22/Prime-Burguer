@@ -16,11 +16,17 @@ html {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 
 h1 {
   margin-top: 3%;
-  font-family: 'Anton', sans-serif;
+    font-family: 'Anton', sans-serif;
+    background-color: #FFAA47;
+    width: 70%;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
 }
 
 /*Estilização Classes*/
@@ -28,13 +34,15 @@ h1 {
 .logo {
   display: flex;
   justify-content: center;
+  margin-top: 2%;
 }
 
 .card-choice {
-  display: flex;
+  display: grid;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
   padding: 3%;
 }
 
@@ -42,19 +50,35 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
+  justify-content: center;
+  background-color: #fd9b35;
   border-radius: 5px;
-  padding: 2%;
+  padding: 5% 1%;
   cursor: pointer;
 }
 
 .item-choice:hover {
-  background-color: #fab92a;
   margin-top: -5px;
 }
 
 .img-choice {
   width: 60%;
+  background-color: #FFAA47;
+  padding: 5%;
+  border-radius: 15px;
+  box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
 }
 
-/*Estilização IDs*/
+/*Estilização Medias*/
+
+@media (max-width: 1050px) {
+  .card-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .item-choice {
+    width: 50%;
+  }
+}

@@ -1,10 +1,14 @@
 <?php
-include 'conexao.php';
+include '../php-action/conexao.php';
 
 session_start();
-if ($_SESSION['logado'] !== true) {
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] !== true) {
     header("Location: ../index.php");
+    exit;
 }
+
+// Obtenha o nome do usuário da sessão
+$username = $_SESSION["nome_usuario"];
 ?>
 
 <!DOCTYPE html>
@@ -24,29 +28,65 @@ if ($_SESSION['logado'] !== true) {
     <!-- Área de Cabeçalho e Navegação -->
     <header class="responsive-header">
 
-        <div class="logo-area">
-            <img src="../img/logo.png" id="img-logo" alt="Logo" onclick="javascript:location.href='direcionamento.php'">
+<div class="logo-area">
+    <img src="../img/logo.png" id="img-logo" alt="Logo" onclick="javascript:location.href='direcionamento.php'">
+</div>
+
+<div class="search-area">
+
+    <h4 id="txt-title">Casuais</h4>
+
+    <div class="configs">
+
+        <div class="carrinho">
+            <img src="../img/cesta.png" class="icon-cesta" onclick="abrirModalCarrinho()">
+            <span class="quant" id="quantidade-carrinho">0</span>
         </div>
 
-        <div class="search-area">
+        <div class="user-name-area">
+            <p id="user-name"><?php echo $username; ?></p>
+            <img src="../img/user-c.png" id="user-c-icon" onclick="toggleDrop()">
+        </div>
 
-            <h4 id="txt-title">Gourmets</h4>
+    </div>
 
-            <div class="configs">
-
-                <div class="carrinho">
-                    <img src="../img/cesta.png" class="icon-cesta" onclick="abrirModalCarrinho()">
-                    <span class="quant" id="quantidade-carrinho">0</span>
-                </div>
-
-                <img src="../img/sair.png" class="icon" onclick="javascript:location.href='logout.php'">
-
-
+   <div class="menu">
+                <ul class="exit">
+                    <li class="logout">
+                        <a href="../php-action/adicionar_produto.php" class="sair">
+                            <img src="../img/mais-icon.png" id="icon-sair">
+                            Adicionar Produto
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="comandas.php" class="sair">
+                            <img src="../img/icon-pedido.png" id="icon-sair">
+                            Gerenciar Comandas
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento.php" class="sair">
+                            <img src="../img/funcs-icon.png" id="icon-sair">
+                            Gerenciar Funcionários
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento-produto.php" class="sair">
+                            <img src="../img/produtos-icon.png" id="icon-sair">
+                            Gerenciar Produtos
+                        </a>
+                    </li>
+                    <li class="logout" onclick="javascript:location.href='logout.php'">
+                        <a href="../php-action/logout.php" class="sair">
+                            <img src="../img/sair.png" id="icon-sair">
+                            Sair da Sua Conta
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-
-        </div>
-    </header>
+</div>
+</header>
 
     <section class="toogle-area">
         <div id="menu-toggle" class="menu-toggle" onclick="toggleMenu()" ondblclick="toggleDropdown()">
@@ -133,7 +173,7 @@ if ($_SESSION['logado'] !== true) {
             <div id="modal-content"> <!-- Adicione a classe modal-content aqui -->
                 <div class="modal-header">
                     <h2 id="titulo">Resumo do Pedido</h2>
-                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa">
+                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa" min="1">
                     <img src="../img/icon-X.png" id="close-modal" onclick="fecharModal()">
                 </div>
                 <div class="modal-body">
@@ -161,122 +201,47 @@ if ($_SESSION['logado'] !== true) {
         <!-- Área dos Cards dos produtos -->
 
         <div class="all-products">
+            <?php
+            include '../php-action/conexao.php';
 
-            <!-- Produto 1 -->
+            // Verifique a conexão
+            if (mysqli_connect_errno()) {
+                echo "Falha na conexão com o banco de dados: " . mysqli_connect_error();
+            }
 
-            <div class="card-product">
+            // Consulta para obter os pedidos
+            $consulta = "SELECT * FROM produtos_cadastrados WHERE categoria_produto = 'Gourmet' ORDER BY id_produto ASC";
+            $resultado = $conn->query($consulta);
 
-                <div class="img-product">
-                    <img src="../img/Burguers/gourmet/gourmet1.png" class="img-burg">
-                </div>
+            // Verificar se a consulta retornou algum resultado
+            if ($resultado->num_rows > 0) :
+                // Exibir os produtos
+                while ($row = $resultado->fetch_assoc()) :
+                    echo '
+                        <div class="card-product">
+                            <div class="img-product">
+                                <img src="' . $row["img_produto"] . '" class="img-burg">
+                            </div>
+                            <div class="product">
+                                <h2 class="title-product">' . $row["nome_produto"] . '</h2>
+                                <p>' . $row["descricao_produto"] . '</p>
+                                <div class="buy">
+                                    <h3>R$' . $row["valor_produto"] . '</h3>
+                                    <input type="button" value="Adicionar" class="btn-add" data-nome="' . $row["nome_produto"] . '" data-preco="' . $row["valor_produto"] . '" data-imagem="' . $row["img_produto"] . '">
+                                </div>
+                            </div>
+                        </div>';
+                endwhile;
+            else:
+                echo "Nenhum produto encontrado para esta categoria.";
+            endif;
 
-                <div class="product">
+            // Fechar a conexão
+            $conn->close();
 
-                    <h2 class="title-product">All Burguer</h2>
-
-                    <p>Uma obra-prima da Gourmet, o All Burguer combina carne suculenta, ingredientes frescos e molho especial para uma experiência luxuosa.</p>
-
-                    <div class="buy">
-
-                        <h3>R$40,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="All Burguer" data-preco="40.99" data-imagem="../img/Burguers/gourmet/gourmet1.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Burguers/gourmet/gourmet3.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Better Burguer</h2>
-
-                    <p>Elevando padrões, o Better Burguer celebra o sabor autêntico com ingredientes selecionados, garantindo qualidade superior.</p>
-
-                    <div class="buy">
-
-                        <h3>R$45,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Better Burguer" data-preco="45.99" data-imagem="../img/Burguers/gourmet/gourmet3.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Burguers/gourmet/gourmet2.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Dark Burguer</h2>
-
-                    <p> Uma tentação de sabor, o Dark Burguer apresenta carne suculenta, queijo defumado e carvão ativado para uma experiência intensa.</p>
-
-                    <div class="buy">
-
-                        <h3>R$49,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Dark Burguer" data-preco="49.99" data-imagem="../img/Burguers/gourmet/gourmet2.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 4 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Burguers/gourmet/gourmet4.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Truffle Burguer</h2>
-
-                    <p>Uma experiência gourmet excepcional. O hambúrguer une carne premium, queijo derretido, cogumelos trufados e molho de trufas, criando uma harmonia de sabores refinados.</p>
-
-                    <div class="buy">
-
-                        <h3>R$40,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Truffle Burguer" data-preco="40.99" data-imagem="../img/Burguers/gourmet/gourmet4.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 5 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Burguers/gourmet/gourmet5.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Savory Burguer</h2>
-
-                    <p>Uma sinfonia de sabores artesanais. Carne grelhada, caramelo de cebola, bacon crocante e queijo cheddar se unem em uma experiência harmoniosa.</p>
-
-                    <div class="buy">
-
-                        <h3>R$45,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Savory Burguer" data-preco="20.99" data-imagem="../img/Burguers/gourmet/gourmet5.png">
-
-                    </div>
-                </div>
-            </div>
+            ?>
         </div>
+
     </main>
     <footer>
         <p id="txt-footer">Desenvolvido por DesignFlow &copy;</p>

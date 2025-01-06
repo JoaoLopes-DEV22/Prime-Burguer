@@ -11,6 +11,7 @@ if ($_SESSION['logado'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/tv-clientes.css">
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
     <title>Tv-Clientes</title>
 </head>
 
@@ -31,7 +32,7 @@ if ($_SESSION['logado'] !== true) {
             </div>
 
             <?php
-            include 'conexao.php';
+            include '../php-action/conexao.php';
 
             // Verifique a conexão
             if (mysqli_connect_errno()) {
@@ -95,7 +96,7 @@ if ($_SESSION['logado'] !== true) {
             </div>
 
             <?php
-            include 'conexao.php';
+            include '../php-action/conexao.php';
 
             // Verifique a conexão
             if (mysqli_connect_errno()) {

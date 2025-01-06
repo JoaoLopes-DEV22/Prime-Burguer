@@ -10,19 +10,25 @@ if ($_SESSION['logado'] !== true) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/tv-cozinha.css">
+    <link rel="stylesheet" href="../css/tv-cozinha-copia.css">
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
     <title>Tv-Cozinha</title>
 </head>
 
 <body>
     <header>
-        <img src="../img/logo.png" id="logo" onclick="javascript:location.href='logout.php'">
+        <div class="logo-area">
+        <img src="../img/logo.png" id="logo">
+        </div>
+        <div class="logout-area">
+            <img src="../img/sair-w.png" class="icon" onclick="javascript:location.href='../php-action/logout.php'">
+        </div>
     </header>
     <main>
         <section class="column" id="left-column">
             <!-- PHP para exibir os pedidos recuperados do banco de dados -->
             <?php
-            include 'conexao.php';
+            include '../php-action/conexao.php';
 
             // Verifique a conexão
             if (mysqli_connect_errno()) {
@@ -50,7 +56,7 @@ if ($_SESSION['logado'] !== true) {
                         echo "<p>" . $observacao_pedido . "</p>";
                         echo "<div class='icons'>";
                         echo "<a href='atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
-                        echo "<img src='../img/lata-de-lixo.png' class='icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
+                        echo "<img src='../img/lata-de-lixo.png' class='icon' id='lixo-icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
                         echo "<input type='submit' value='Enviar' class='btn-enviar' onclick='concluirPedidos(" . $pedido_anterior . ")'>";
                         echo "</div>";
                         echo "</div>";
@@ -84,7 +90,7 @@ if ($_SESSION['logado'] !== true) {
                 echo "<p>" . $observacao_pedido . "</p>";
                 echo "<div class='icons'>";
                 echo "<a href='atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
-                echo "<img src='../img/lata-de-lixo.png' class='icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
+                echo "<img src='../img/lata-de-lixo.png' class='icon' id='lixo-icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
                 echo "<input type='submit' value='Enviar' class='btn-enviar' onclick='concluirPedidos(" . $pedido_anterior . ")'>";
                 echo "</div>";
                 echo "</div>";

@@ -1,8 +1,14 @@
 <?php
+include '../php-action/conexao.php';
+
 session_start();
-if ($_SESSION['logado'] !== true) {
-    header("Location:../index.php");
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] !== true) {
+    header("Location: ../index.php");
+    exit;
 }
+
+// Obtenha o nome do usuário da sessão
+$username = $_SESSION["nome_usuario"];
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +35,7 @@ if ($_SESSION['logado'] !== true) {
 
         <div class="search-area">
 
-            <h4 id="txt-title">Fritas</h4>
+            <h4 id="txt-title">Casuais</h4>
 
             <div class="configs">
 
@@ -38,11 +44,47 @@ if ($_SESSION['logado'] !== true) {
                     <span class="quant" id="quantidade-carrinho">0</span>
                 </div>
 
-                <img src="../img/sair.png" class="icon" onclick="javascript:location.href='logout.php'">
-
+                <div class="user-name-area">
+                    <p id="user-name"><?php echo $username; ?></p>
+                    <img src="../img/user-c.png" id="user-c-icon" onclick="toggleDrop()">
+                </div>
 
             </div>
 
+            <div class="menu">
+                <ul class="exit">
+                    <li class="logout">
+                        <a href="../php-action/adicionar_produto.php" class="sair">
+                            <img src="../img/mais-icon.png" id="icon-sair">
+                            Adicionar Produto
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="comandas.php" class="sair">
+                            <img src="../img/icon-pedido.png" id="icon-sair">
+                            Gerenciar Comandas
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento.php" class="sair">
+                            <img src="../img/funcs-icon.png" id="icon-sair">
+                            Gerenciar Funcionários
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento-produto.php" class="sair">
+                            <img src="../img/produtos-icon.png" id="icon-sair">
+                            Gerenciar Produtos
+                        </a>
+                    </li>
+                    <li class="logout" onclick="javascript:location.href='logout.php'">
+                        <a href="../php-action/logout.php" class="sair">
+                            <img src="../img/sair.png" id="icon-sair">
+                            Sair da Sua Conta
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
         </div>
     </header>
@@ -132,7 +174,7 @@ if ($_SESSION['logado'] !== true) {
             <div id="modal-content"> <!-- Adicione a classe modal-content aqui -->
                 <div class="modal-header">
                     <h2 id="titulo">Resumo do Pedido</h2>
-                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa">
+                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa" min="1">
                     <img src="../img/icon-X.png" id="close-modal" onclick="fecharModal()">
                 </div>
                 <div class="modal-body">
@@ -160,75 +202,45 @@ if ($_SESSION['logado'] !== true) {
         <!-- Área dos Cards dos produtos -->
 
         <div class="all-products">
+            <?php
+            include '../php-action/conexao.php';
 
-            <!-- Produto 1 -->
-            <div class="card-product">
+            // Verifique a conexão
+            if (mysqli_connect_errno()) :
+                echo "Falha na conexão com o banco de dados: " . mysqli_connect_error();
+            endif;
 
-                <div class="img-product">
-                    <img src="../img/Porções/batata-simples.png" class="img-burg">
-                </div>
+            // Consulta para obter os pedidos
+            $consulta = "SELECT * FROM produtos_cadastrados WHERE categoria_produto = 'Fritas' ORDER BY id_produto ASC";
+            $resultado = $conn->query($consulta);
 
-                <div class="product">
+            // Verificar se a consulta retornou algum resultado
+            if ($resultado->num_rows > 0) :
+                // Exibir os produtos
+                while ($row = $resultado->fetch_assoc()) :
+                    echo '
+                        <div class="card-product">
+                            <div class="img-product">
+                                <img src="' . $row["img_produto"] . '" class="img-burg">
+                            </div>
+                            <div class="product">
+                                <h2 class="title-product">' . $row["nome_produto"] . '</h2>
+                                <p>' . $row["descricao_produto"] . '</p>
+                                <div class="buy">
+                                    <h3>R$' . $row["valor_produto"] . '</h3>
+                                    <input type="button" value="Adicionar" class="btn-add" data-nome="' . $row["nome_produto"] . '" data-preco="' . $row["valor_produto"] . '" data-imagem="' . $row["img_produto"] . '">
+                                </div>
+                            </div>
+                        </div>';
+                endwhile;
+            else :
+                echo "Nenhum produto encontrado para esta categoria.";
+            endif;
 
-                    <h2 class="title-product">Batata simples</h2>
+            // Fechar a conexão
+            $conn->close();
 
-                    <p>Cortadas em finos pedaços e fritas até ficarem douradas e crocantes por fora, são uma delícia versátil, perfeita para qualquer momento e acompanhadas por diversos temperos e molhos.</p>
-
-                    <div class="buy">
-
-                        <h3>R$29,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Batata Simples" data-preco="29.99" data-imagem="../img/Porções/batata-simples.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Porções/batata-cheddar-bacon.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Batata + Cheddar e Bacon</h2>
-
-                    <p>Combinação perfeita de maciez, queijo cheddar derretido e pedaços crocantes de bacon. Uma explosão de sabores em cada mordida, irresistível para os paladares exigentes.</p>
-
-                    <div class="buy">
-
-                        <h3>R$39,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Batata + Cheddar + Bacon" data-preco="39.99" data-imagem="../img/Porções/batata-cheddar-bacon.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Porções/batata-contra-file.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Batata + Contra filé</h2>
-
-                    <p>A combinação irresistível de batata frita e contrafilé grelhado proporciona uma refeição deliciosa e satisfatória, com a crocância das batatas complementando o sabor suculento da carne.
-                    </p>
-
-                    <div class="buy">
-
-                        <h3>R$59,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Batata + Contra Filé" data-preco="59.99" data-imagem="../img/Porções/batata-contra-file.png">
-
-                    </div>
-                </div>
-            </div>
+            ?>
         </div>
     </main>
     <footer>

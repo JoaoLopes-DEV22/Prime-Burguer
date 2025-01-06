@@ -1,9 +1,14 @@
 <?php
-include 'conexao.php';
+include '../php-action/conexao.php';
+
 session_start();
-if ($_SESSION['logado'] !== true) {
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] !== true) {
     header("Location: ../index.php");
+    exit;
 }
+
+// Obtenha o nome do usuário da sessão
+$username = $_SESSION["nome_usuario"];
 ?>
 
 <!DOCTYPE html>
@@ -23,29 +28,65 @@ if ($_SESSION['logado'] !== true) {
     <!-- Área de Cabeçalho e Navegação -->
     <header class="responsive-header">
 
-        <div class="logo-area">
-            <img src="../img/logo.png" id="img-logo" alt="Logo" onclick="javascript:location.href='direcionamento.php'">
+<div class="logo-area">
+    <img src="../img/logo.png" id="img-logo" alt="Logo" onclick="javascript:location.href='direcionamento.php'">
+</div>
+
+<div class="search-area">
+
+    <h4 id="txt-title">Casuais</h4>
+
+    <div class="configs">
+
+        <div class="carrinho">
+            <img src="../img/cesta.png" class="icon-cesta" onclick="abrirModalCarrinho()">
+            <span class="quant" id="quantidade-carrinho">0</span>
         </div>
 
-        <div class="search-area">
+        <div class="user-name-area">
+            <p id="user-name"><?php echo $username; ?></p>
+            <img src="../img/user-c.png" id="user-c-icon" onclick="toggleDrop()">
+        </div>
 
-            <h4 id="txt-title">Frangos</h4>
+    </div>
 
-            <div class="configs">
-
-                <div class="carrinho">
-                    <img src="../img/cesta.png" class="icon-cesta" onclick="abrirModalCarrinho()">
-                    <span class="quant" id="quantidade-carrinho">0</span>
-                </div>
-
-                <img src="../img/sair.png" class="icon" onclick="javascript:location.href='logout.php'">
-
-
+   <div class="menu">
+                <ul class="exit">
+                    <li class="logout">
+                        <a href="../php-action/adicionar_produto.php" class="sair">
+                            <img src="../img/mais-icon.png" id="icon-sair">
+                            Adicionar Produto
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="comandas.php" class="sair">
+                            <img src="../img/icon-pedido.png" id="icon-sair">
+                            Gerenciar Comandas
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento.php" class="sair">
+                            <img src="../img/funcs-icon.png" id="icon-sair">
+                            Gerenciar Funcionários
+                        </a>
+                    </li>
+                    <li class="logout">
+                        <a href="gerenciamento-produto.php" class="sair">
+                            <img src="../img/produtos-icon.png" id="icon-sair">
+                            Gerenciar Produtos
+                        </a>
+                    </li>
+                    <li class="logout" onclick="javascript:location.href='logout.php'">
+                        <a href="../php-action/logout.php" class="sair">
+                            <img src="../img/sair.png" id="icon-sair">
+                            Sair da Sua Conta
+                        </a>
+                    </li>
+                </ul>
             </div>
 
-
-        </div>
-    </header>
+</div>
+</header>
 
     <section class="toogle-area">
         <div id="menu-toggle" class="menu-toggle" onclick="toggleMenu()" ondblclick="toggleDropdown()">
@@ -132,7 +173,7 @@ if ($_SESSION['logado'] !== true) {
             <div id="modal-content"> <!-- Adicione a classe modal-content aqui -->
                 <div class="modal-header">
                     <h2 id="titulo">Resumo do Pedido</h2>
-                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa">
+                    <input type="number" class="number-mesa" name="num" id="num" placeholder="Insira a Mesa" min="1">
                     <img src="../img/icon-X.png" id="close-modal" onclick="fecharModal()">
                 </div>
                 <div class="modal-body">
@@ -160,75 +201,45 @@ if ($_SESSION['logado'] !== true) {
         <!-- Área dos Cards dos produtos -->
 
         <div class="all-products">
+            <?php
+            include '../php-action/conexao.php';
 
-            <!-- Produto 1 -->
-            <div class="card-product">
+            // Verifique a conexão
+            if (mysqli_connect_errno()) {
+                echo "Falha na conexão com o banco de dados: " . mysqli_connect_error();
+            }
 
-                <div class="img-product">
-                    <img src="../img/Porções/frango-simples.png" class="img-burg">
-                </div>
+            // Consulta para obter os pedidos
+            $consulta = "SELECT * FROM produtos_cadastrados WHERE categoria_produto = 'Frango' ORDER BY id_produto ASC";
+            $resultado = $conn->query($consulta);
 
-                <div class="product">
+            // Verificar se a consulta retornou algum resultado
+            if ($resultado->num_rows > 0) :
+                // Exibir os produtos
+                while ($row = $resultado->fetch_assoc()) :
+                    echo '
+                        <div class="card-product">
+                            <div class="img-product">
+                                <img src="' . $row["img_produto"] . '" class="img-burg">
+                            </div>
+                            <div class="product">
+                                <h2 class="title-product">' . $row["nome_produto"] . '</h2>
+                                <p>' . $row["descricao_produto"] . '</p>
+                                <div class="buy">
+                                    <h3>R$' . $row["valor_produto"] . '</h3>
+                                    <input type="button" value="Adicionar" class="btn-add" data-nome="' . $row["nome_produto"] . '" data-preco="' . $row["valor_produto"] . '" data-imagem="' . $row["img_produto"] . '">
+                                </div>
+                            </div>
+                        </div>';
+                endwhile;
+            else:
+                echo "Nenhum produto encontrado para esta categoria.";
+            endif;
 
-                    <h2 class="title-product">Porção de Frango simples</h2>
+            // Fechar a conexão
+            $conn->close();
 
-                    <p>Sabor autêntico do frango em uma porção descomplicada.</p>
-
-                    <div class="buy">
-
-                        <h3>R$19,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Porção de Frango simples" data-preco="19.99" data-imagem="../img/Porções/frango-simples.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 2 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Porções/frango-empanado.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Porção de Frango empanado</h2>
-
-                    <p>Textura crocante, sabor suculento. Frango empanado para quem ama uma experiência de sabores contrastantes.</p>
-
-                    <div class="buy">
-
-                        <h3>R$22,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Porção de Frango empanado" data-preco="22.99" data-imagem="../img/Porções/frango-empanado.png">
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Produto 3 -->
-
-            <div class="card-product">
-
-                <div class="img-product">
-                    <img src="../img/Porções/frango-batata-frita.png" class="img-burg">
-                </div>
-
-                <div class="product">
-
-                    <h2 class="title-product">Porção de Frango + fritas</h2>
-
-                    <p>Frango e fritas gourmet em uma porção irresistível. Combinação de sabores que sacia seu desejo por uma refeição deliciosa.</p>
-
-                    <div class="buy">
-
-                        <h3>R$29,99</h3>
-                        <input type="button" value="Adicionar" class="btn-add" data-nome="Porção de Frango + fritas" data-preco="29.99" data-imagem="../img/Porções/frango-batata-frita.png">
-
-                    </div>
-                </div>
-            </div>
-
+            ?>
         </div>
     </main>
     <footer>

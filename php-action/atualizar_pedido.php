@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
 
-        header("Location: tv-cozinha.php");
+        header("Location: ../php/tv-cozinha.php");
     } else {
         echo "Erro ao atualizar mesa e observação do pedido:" . $conn->error;
     }
@@ -77,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <div class="itens-forms">
 
             <label for='mesa_pedido' class="label-item">Mesa:</label>
-            <input type='number' class="input-item" name='mesa_pedido' value='<?php echo $pedido['mesa_pedido']; ?>'>
+            <input type='number' class="input-item" name='mesa_pedido' min='1' value='<?php echo $pedido['mesa_pedido']; ?>'>
 
             <!-- Campo para alterar a observação (exibido apenas uma vez) -->
             <label for='observacao_pedido' class="label-item">Observação do Pedido:</label>
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 echo "<input type='text'class='input-item' name='nome_pedido[]' value='" . $item_pedido['nome_pedido'] . "'>";
 
                 echo "<label for='quantidade_pedido' class='label-item'>Quantidade de " . $item_pedido['nome_pedido'] . ":</label>";
-                echo "<input type='number'class='input-item' name='quantidade_pedido[]' value='" . $item_pedido['quantidade_pedido'] . "'>";
+                echo "<input type='number'class='input-item' min='1' name='quantidade_pedido[]' value='" . $item_pedido['quantidade_pedido'] . "'>";
 
                 echo "<input type='hidden'class='input-item' name='id_pedido[]' value='" . $item_pedido['id_pedido'] . "'>";
             }

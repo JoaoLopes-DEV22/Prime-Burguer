@@ -1,6 +1,6 @@
 <?php
 
-include 'conexao.php';
+include '../php-action/conexao.php';
 
 session_start();
 if ($_SESSION["logado"] !== true) {
@@ -15,12 +15,13 @@ if ($_SESSION["logado"] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Direcionamento</title>
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../css/direcionamento.css">
 </head>
-    
+
 <body>
     <div class="logo">
-        <img src="../img/logo.png" alt="">
+        <img src="../img/logo.png">
     </div>
 
     <div class="card-choice">

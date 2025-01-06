@@ -1,0 +1,196 @@
+/*Global*/
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: "digital";
+    src: url(../fonts/DigitalNumbers-Regular.ttf);
+}
+
+/*Tags*/
+
+html {
+    background-color: #cacaca;
+}
+
+header {
+    width: 100%;
+    background-color: #404040;
+    text-align: center;
+    padding: 0.5% 0;
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    background-color: #cacaca;
+    display: flex;
+    width: 100vw;
+}
+
+section.column {
+    background-color: #cacaca;
+    width: 98%;
+    display: grid;
+    align-items: center;
+    padding: 1% 0;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 30px;
+}
+
+h1.nmr-pedido{
+    font-size: 55px;
+    font-family: digital;
+}
+
+h2.obs {
+    color: red;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+p, li {
+    font-size: 20px;
+    text-align: justify;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/*Classes*/
+
+.card {
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 3%;
+    margin: 1.5%;
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
+}
+
+.icon{
+    width: 30px;
+    height: 30px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.icon:hover{
+    opacity: 1;
+}
+
+.btn-enviar{
+    width: 40%;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    padding: 4%;
+    color: white;
+    background-color: #30B93D;
+    font-weight: bold;
+    font-size: 15px;
+    box-shadow: 0px 4px 4px 0px rgb(0, 0, 0, 0.25);
+}
+
+.btn-enviar:hover{
+    background-color: #2dac3a;
+}
+
+.logout-area {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 1%;
+    padding-bottom: 1%;
+}
+
+.logo-area{
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*IDs*/
+
+#logo {
+    width: 150px;
+    height: 150px;
+}
+
+
+/*Intern Card*/
+
+.area-pedido {
+    display: flex;
+    width: 100%;
+    gap: 9%;
+    justify-content: center;
+    align-items: center;
+    padding-right: 2%;
+}
+
+.area-extra {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    border-left: 2px solid rgb(210, 210, 210);
+    padding-left: 2%;
+}
+
+.icons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6%;
+    gap: 2%;
+    align-items: center;
+}
+
+/*Responsividade*/
+
+@media screen and (max-width: 969px) {
+
+    main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    section.column{
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+    }
+    
+}
+
+@media screen and (max-width: 650px) {
+    
+    .card{
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .area-pedido{
+        width: 100%;
+        border-bottom: 2px solid rgb(210, 210, 210);
+       padding-bottom: 3%;
+    }
+
+    .area-extra {
+        width: 100%;
+        border-left: none;
+        margin-top: 3%;
+    }
+
+    h2, p {
+        text-align: center;
+    }
+
+    .icons {
+        justify-content: center;
+    }
+
+}

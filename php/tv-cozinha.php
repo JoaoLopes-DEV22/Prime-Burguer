@@ -11,6 +11,7 @@ if ($_SESSION['logado'] !== true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/tv-cozinha.css">
+    <link rel="shortcut icon" href="../favicon/favicon.ico" type="image/x-icon">
     <title>Tv-Cozinha</title>
 </head>
 
@@ -22,7 +23,7 @@ if ($_SESSION['logado'] !== true) {
         <section class="column" id="left-column">
             <!-- PHP para exibir os pedidos recuperados do banco de dados -->
             <?php
-            include 'conexao.php';
+           include '../php-action/conexao.php';
 
             // Verifique a conexão
             if (mysqli_connect_errno()) {
@@ -49,8 +50,8 @@ if ($_SESSION['logado'] !== true) {
                         echo "<h2 class='obs'>OBSERVAÇÕES:</h2>";
                         echo "<p>" . $observacao_pedido . "</p>";
                         echo "<div class='icons'>";
-                        echo "<a href='atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
-                        echo "<img src='../img/lata-de-lixo.png' class='icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
+                        echo "<a href='../php-action/atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
+                        echo "<img src='../img/lata-de-lixo.png' class='icon' id='lixo-icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
                         echo "<input type='submit' value='Enviar' class='btn-enviar' onclick='concluirPedidos(" . $pedido_anterior . ")'>";
                         echo "</div>";
                         echo "</div>";
@@ -83,14 +84,16 @@ if ($_SESSION['logado'] !== true) {
                 echo "<h2 class='obs'>OBSERVAÇÕES:</h2>";
                 echo "<p>" . $observacao_pedido . "</p>";
                 echo "<div class='icons'>";
-                echo "<a href='atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
-                echo "<img src='../img/lata-de-lixo.png' class='icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
+                echo "<a href='../php-action/atualizar_pedido.php?id=" . $pedido_anterior . "'><img src='../img/lapis.png' class='icon'></a>";
+                echo "<img src='../img/lata-de-lixo.png' class='icon' id='lixo-icon' onclick='apagarPedido(" . $pedido_anterior . ")'>";
                 echo "<input type='submit' value='Enviar' class='btn-enviar' onclick='concluirPedidos(" . $pedido_anterior . ")'>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";
             }
-
+            else{
+                echo "Nenhum pedido encontrado!";
+            }
             // Fechar a conexão com o banco de dados
             mysqli_close($conn);
 
