@@ -1,30 +1,30 @@
 # Prime Burguer 🍔
 
-Bem-vindo ao **Prime Burguer**, um sistema completo para gerenciamento de uma hamburgueria, desenvolvido inteiramente em **PHP**. Com este sistema, você pode gerenciar o login, carrinho de compras, comandas e muito mais de forma simples e intuitiva.
+**Prime Burguer** é um sistema de gerenciamento para uma hamburgueria, desenvolvido inteiramente em **PHP**. Este projeto foi realizado como parte de um **projeto escolar**, onde ainda estava me desenvolvendo como programador. O objetivo foi criar uma plataforma simples e funcional para gerenciar pedidos, produtos e usuários em uma hamburgueria de maneira eficiente e intuitiva.
 
 ## 🚀 Funcionalidades
 
-- **Login/Logout**: Realize login e logout facilmente para acessar o painel da plataforma.
-- **Carrinho de Compras**: Adicione produtos ao carrinho de forma rápida e visualize a comanda em tempo real.
-- **Tela de Cozinha**: Visualize as comandas diretamente na tela da cozinha, facilitando o processo de preparo.
-- **Tela de Cliente**: O cliente pode acompanhar o status do pedido ao vivo.
-- **Gerenciamento de Usuários**: Administradores podem gerenciar todos os usuários da plataforma.
-- **Gestão de Produtos**: Crie, leia, edite e delete produtos da hamburgueria com facilidade, tudo em um CRUD simples.
+- **Login/Logout**: Permite que usuários façam login e logout para acessar o painel administrativo.
+- **Carrinho de Compras**: Adiciona produtos ao carrinho e permite visualizar a comanda em tempo real.
+- **Tela de Cozinha**: Visualização das comandas para a equipe da cozinha processar os pedidos.
+- **Tela de Cliente**: Visualização da comanda em tempo real para o cliente.
+- **Gerenciamento de Usuários**: Permite gerenciar todos os usuários da plataforma (administração).
+- **Gestão de Produtos**: CRUD completo (Criar, Ler, Atualizar, Deletar) para gerenciar todos os produtos da hamburgueria.
 
 ## 🔑 Credenciais para Teste
 
-Para testar o sistema, use as seguintes credenciais de login:
+Você pode testar o sistema utilizando as seguintes credenciais de login:
 
 - **Usuário**: `adm`
 - **Senha**: `123`
 
-Com essas credenciais, você tem acesso total como administrador e pode explorar todas as funcionalidades da plataforma.
+Essas credenciais dão acesso ao painel administrativo, permitindo explorar as funcionalidades do sistema.
 
 ## 🛠 Tecnologias Utilizadas
 
-- **PHP**: Para o desenvolvimento back-end.
-- **MySQL** (ou outro banco de dados relacional): Para armazenar os dados da aplicação.
-- **HTML, CSS, JavaScript**: Para a criação da interface do usuário interativa e responsiva.
+- **PHP**: Linguagem principal utilizada para desenvolvimento back-end.
+- **MySQL** (ou outro banco de dados relacional): Utilizado para armazenar dados da aplicação.
+- **HTML, CSS, JavaScript**: Para construção da interface do usuário, tornando-a interativa e responsiva.
 
 ## 📦 Como Rodar o Projeto
 
